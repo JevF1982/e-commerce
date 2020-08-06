@@ -2,37 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Checkbox, Collapse } from "antd";
 const { Panel } = Collapse;
 
-const continents = [
-  {
-    _id: 1,
-    name: "Africa",
-  },
-  {
-    _id: 2,
-    name: "Europe",
-  },
-  {
-    _id: 3,
-    name: "North-America",
-  },
-  {
-    _id: 4,
-    name: "South-America",
-  },
-  {
-    _id: 5,
-    name: "Asia",
-  },
-  {
-    _id: 6,
-    name: "Australia",
-  },
-  {
-    _id: 7,
-    name: "Antarctica",
-  },
-];
-
 export default function Checkboxes(props) {
   const [checked, setChecked] = useState([]);
 
@@ -51,7 +20,7 @@ export default function Checkboxes(props) {
   };
 
   const renderCheckboxList = () =>
-    continents.map((continent, index) => (
+    props.continents.map((continent, index) => (
       <Checkbox
         style={{ margin: "5px" }}
         key={index}
@@ -66,7 +35,7 @@ export default function Checkboxes(props) {
 
   return (
     <div>
-      <div style={{ width: "50%" }}>
+      <div>
         <Collapse>
           <Panel header="Choose Continent">{renderCheckboxList()}</Panel>
         </Collapse>

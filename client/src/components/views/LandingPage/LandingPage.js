@@ -3,6 +3,8 @@ import { Icon, Row, Col, Card } from "antd";
 import ImageSlider from "../../utils/ImageSlider";
 import Axios from "axios";
 import Checkbox from "../LandingPage/sections/Checkbox";
+import RadioBox from "../LandingPage/sections/RadioBox";
+import { continents, price } from "../LandingPage/sections/Data";
 
 const { Meta } = Card;
 
@@ -75,12 +77,27 @@ function LandingPage() {
     setSkip(0);
   };
 
+  const handlePrice = (value) => {
+    const data = price;
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id === parseInt(value, 10)) {
+        array = data[key].array;
+      }
+    }
+    return array;
+  };
+
   const handleFilters = (filters, category) => {
     const newFilter = { ...Filters };
 
     newFilter[category] = filters;
 
     if (category === "price") {
+      let priceValue = handlePrice(filters);
+      newFilter[category] = priceValue;
+      console.log(newFilter);
     }
 
     showFilteredResults(newFilter);
@@ -95,9 +112,26 @@ function LandingPage() {
             Let's travel anywhere <Icon type="rocket" />
           </h2>
           <br />
-          <Checkbox
-            handleFilters={(filters) => handleFilters(filters, "continents")}
-          />
+          <div>
+            <Row>
+              <Col lg={12} md={12} sm={24} xs={24}>
+                {" "}
+                <Checkbox
+                  continents={continents}
+                  handleFilters={(filters) =>
+                    handleFilters(filters, "continents")
+                  }
+                />
+              </Col>
+              <Col lg={12} md={12} sm={24} xs={24}>
+                {" "}
+                <RadioBox
+                  price={price}
+                  handleFilters={(filters) => handleFilters(filters, "price")}
+                />
+              </Col>
+            </Row>
+          </div>
         </div>
         <br />
         <br />
