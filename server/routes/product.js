@@ -71,7 +71,7 @@ router.post("/getProducts", (req, res) => {
     }
   }
 
-  Product.find()
+  Product.find(findArgs)
     .populate("writer")
     .sort([[sortBy, order]])
     .skip(skip)

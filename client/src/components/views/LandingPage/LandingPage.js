@@ -8,7 +8,7 @@ const { Meta } = Card;
 
 function LandingPage() {
   const [Products, setProducts] = useState([]);
-  const [Limit, setLimit] = useState(4);
+  const [Limit, setLimit] = useState(8);
   const [Skip, setSkip] = useState(0);
   const [PostSize, setPostSize] = useState(0);
   const [Filters, setFilters] = useState({
@@ -19,7 +19,11 @@ function LandingPage() {
   const getProduct = (variables) => {
     Axios.post("/api/product/getProducts", variables).then((res) => {
       if (res.data.success) {
-        setProducts([...Products, ...res.data.products]);
+        if (variables.loadMore) {
+          setProducts([...Products, ...res.data.products]);
+        } else {
+          setProducts(res.data.products);
+        }
 
         setPostSize(res.data.postSize);
       } else {
@@ -45,6 +49,7 @@ function LandingPage() {
     const variables = {
       skip: skipPosts,
       limit: Limit,
+      loadMore: true,
     };
 
     getProduct(variables);
