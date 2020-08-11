@@ -59,6 +59,7 @@ router.post("/getProducts", (req, res) => {
   let skip = parseInt(req.body.skip);
 
   let findArgs = {};
+  let term = req.body.searchTerm;
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
@@ -73,18 +74,51 @@ router.post("/getProducts", (req, res) => {
     }
   }
 
-  Product.find(findArgs)
-    .populate("writer")
-    .sort([[sortBy, order]])
-    .skip(skip)
-    .limit(limit)
-    .exec((err, products) => {
-      if (err) return res.status(400).json({ success: false, err });
+  if (term) {
+    console.log(term);
+    Product.find(findArgs)
+      .find({ $text: { $search: term } })
+      .populate("writer")
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      .exec((err, products) => {
+        if (err) return res.status(400).json({ success: false, err });
 
-      res
-        .status(200)
-        .json({ success: true, products, postSize: products.length });
+        res
+          .status(200)
+          .json({ success: true, products, postSize: products.length });
+      });
+  } else {
+    Product.find(findArgs)
+      .populate("writer")
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      .exec((err, products) => {
+        if (err) return res.status(400).json({ success: false, err });
+
+        res
+          .status(200)
+          .json({ success: true, products, postSize: products.length });
+      });
+  }
+});
+
+router.get("/products_by_id", (req, res) => {
+  let type = req.query.type;
+  let productId = req.query.id;
+
+  if (type === "array") {
+  }
+  Product.find({ _id: { $in: productId } })
+    .populate("writer")
+    .exec((err, product) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).send(product);
     });
 });
+
+// /api/product/products_by_id?id=${productId}&type=single
 
 module.exports = router;

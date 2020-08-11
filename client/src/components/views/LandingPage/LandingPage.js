@@ -4,6 +4,7 @@ import ImageSlider from "../../utils/ImageSlider";
 import Axios from "axios";
 import Checkbox from "../LandingPage/sections/Checkbox";
 import RadioBox from "../LandingPage/sections/RadioBox";
+import SearchFeature from "../LandingPage/sections/SearchFeature";
 import { continents, price } from "../LandingPage/sections/Data";
 
 const { Meta } = Card;
@@ -17,6 +18,7 @@ function LandingPage() {
     continents: [],
     price: [],
   });
+  const [SearchTerm, setSearchTerm] = useState("");
 
   const getProduct = (variables) => {
     Axios.post("/api/product/getProducts", variables).then((res) => {
@@ -60,7 +62,14 @@ function LandingPage() {
   const renderCards = Products.map((product, index) => {
     return (
       <Col lg={6} md={8} sm={12} xs={24} key={index}>
-        <Card hoverable={true} cover={<ImageSlider images={product.images} />}>
+        <Card
+          hoverable={true}
+          cover={
+            <a href={`/product/${product._id}`}>
+              <ImageSlider images={product.images} />
+            </a>
+          }
+        >
           <Meta title={product.title} description={`€${product.price}`} />
         </Card>
       </Col>
@@ -104,6 +113,19 @@ function LandingPage() {
     setFilters(newFilter);
   };
 
+  const updateSearchTerms = (newSearchTerm) => {
+    const variables = {
+      skip: 0,
+      limit: Limit,
+      filters: Filters,
+      searchTerm: newSearchTerm,
+    };
+    setSkip(0);
+    setSearchTerm(newSearchTerm);
+
+    getProduct(variables);
+  };
+
   return (
     <>
       <div style={{ width: "75%", margin: "3rem auto" }}>
@@ -133,6 +155,16 @@ function LandingPage() {
             </Row>
           </div>
         </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            margin: "1rem auto",
+          }}
+        >
+          <SearchFeature refreshFunction={updateSearchTerms} />
+        </div>
+
         <br />
         <br />
         <br />
@@ -146,7 +178,7 @@ function LandingPage() {
               alignItems: "center",
             }}
           >
-            <h2>No products yet</h2>
+            <h2>No products found</h2>
           </div>
         ) : (
           <div>
