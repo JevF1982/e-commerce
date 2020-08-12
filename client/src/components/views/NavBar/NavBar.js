@@ -22,7 +22,7 @@ function NavBar() {
     >
       <div className="menu__logo">
         <img
-          src={require("../../../logo_transparent.png")}
+          src={require("../../../images/logo_transparent.png")}
           style={{ width: "60px" }}
           alt="logo"
         ></img>

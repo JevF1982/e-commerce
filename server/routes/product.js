@@ -110,6 +110,11 @@ router.get("/products_by_id", (req, res) => {
   let productId = req.query.id;
 
   if (type === "array") {
+    let ids = req.query.id.split(",");
+    productId = [];
+    productId = ids.map((item) => {
+      return item;
+    });
   }
   Product.find({ _id: { $in: productId } })
     .populate("writer")
@@ -118,7 +123,5 @@ router.get("/products_by_id", (req, res) => {
       return res.status(200).send(product);
     });
 });
-
-// /api/product/products_by_id?id=${productId}&type=single
 
 module.exports = router;
