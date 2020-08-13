@@ -24,6 +24,7 @@ export default function (state = {}, action) {
         ...state,
         userData: {
           ...state.userData,
+
           cart: action.payload,
         },
       };
@@ -46,6 +47,7 @@ export default function (state = {}, action) {
         ...state,
         userData: {
           ...state.userData,
+
           cart: action.payload.cart,
         },
         cartDetail: action.payload.cartDetail,

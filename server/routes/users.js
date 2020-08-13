@@ -78,9 +78,9 @@ router.post(`/addToCart`, auth, (req, res) => {
   User.find({ _id: req.user._id }, (err, userInfo) => {
     let duplicate = false;
 
-    console.log(userInfo[0]);
+    console.log(userInfo);
 
-    if (userInfo[0].cart.length > 0) {
+    if (userInfo[0].cart && userInfo[0].cart.length > 0) {
       userInfo[0].cart.forEach((cartInfo) => {
         if (cartInfo.id === req.query.productId) {
           duplicate = true;
@@ -95,7 +95,7 @@ router.post(`/addToCart`, auth, (req, res) => {
         { new: true },
         () => {
           if (err) return res.json({ success: false, err });
-          res.status(200).json(userInfo.cart);
+          res.status(200).json(userInfo[0].cart);
         }
       );
     } else {
@@ -146,6 +146,8 @@ router.get("/removeFromCart", auth, (req, res) => {
 router.post("/successBuy", auth, (req, res) => {
   let history = [];
   let transactionData = {};
+
+  console.log("effe zoeken dus", req.body.paymentData);
 
   req.body.cartDetail.forEach((item) => {
     history.push({
@@ -215,6 +217,14 @@ router.post("/successBuy", auth, (req, res) => {
       });
     }
   );
+});
+
+router.get("/getHistory", auth, (req, res) => {
+  User.findOne({ _id: req.user._id }, (err, doc) => {
+    let history = doc.history;
+    if (err) return res.status(400).json({ success: false, err });
+    res.status(200).json({ success: true, history });
+  });
 });
 
 module.exports = router;

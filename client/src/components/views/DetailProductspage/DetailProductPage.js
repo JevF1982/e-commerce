@@ -17,7 +17,7 @@ function DetailProductPage(props) {
         setProduct(res.data[0]);
       }
     );
-  }, []);
+  });
 
   const addToCartHandler = (productId) => {
     dispatch(addToCart(productId));

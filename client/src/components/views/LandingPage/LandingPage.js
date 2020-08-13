@@ -63,6 +63,7 @@ function LandingPage() {
     return (
       <Col lg={6} md={8} sm={12} xs={24} key={index}>
         <Card
+          onClick={() => increaseViews(product._id)}
           hoverable={true}
           cover={
             <a href={`/product/${product._id}`}>
@@ -124,6 +125,16 @@ function LandingPage() {
     setSearchTerm(newSearchTerm);
 
     getProduct(variables);
+  };
+
+  const increaseViews = (productId) => {
+    Axios.post(`/api/product/increaseviews?_id=${productId}`).then((res) => {
+      if (res.data.success) {
+        alert("succes increasing views");
+      } else {
+        console.log("failed to increase views");
+      }
+    });
   };
 
   return (

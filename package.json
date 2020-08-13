@@ -1,7 +1,7 @@
 {
-  "name": "react-boiler-plate",
+  "name": "e-commerce",
   "version": "1.0.0",
-  "description": "react boiler plate",
+  "description": "e-commerce by Jurgen Faust",
   "main": "index.js",
   "engine": {
     "node": "10.16.0",
@@ -9,11 +9,14 @@
   },
   "scripts": {
     "start": "node server/index.js",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
     "backend": "nodemon server/index.js",
     "frontend": "npm run start --prefix client",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
-  "author": "John ahn",
+  "author": "Jurgen faust",
   "license": "ISC",
   "dependencies": {
     "async": "^3.2.0",

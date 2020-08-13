@@ -5,7 +5,6 @@ import axios from "axios";
 import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RFC_2822 } from "moment";
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
@@ -34,11 +33,18 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
-        <Menu.Item key="upload">
-          <a href="/product/upload">Upload</a>
+        <Menu.Item key="history">
+          <a href="/history">History</a>
         </Menu.Item>
+
+        {user.userData && user.userData.isAdmin && (
+          <Menu.Item key="upload">
+            <a href="/product/upload">Upload</a>
+          </Menu.Item>
+        )}
+
         <Menu.Item key="cart">
-          <Badge count={1}>
+          <Badge count={user.userData && user.userData.cart.length}>
             <a href="/user/cart" style={{ marginRight: -22, color: "#667777" }}>
               <Icon
                 type="shopping-cart"

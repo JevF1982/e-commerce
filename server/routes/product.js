@@ -75,7 +75,6 @@ router.post("/getProducts", (req, res) => {
   }
 
   if (term) {
-    console.log(term);
     Product.find(findArgs)
       .find({ $text: { $search: term } })
       .populate("writer")
@@ -117,6 +116,17 @@ router.get("/products_by_id", (req, res) => {
     });
   }
   Product.find({ _id: { $in: productId } })
+    .populate("writer")
+    .exec((err, product) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).send(product);
+    });
+});
+
+router.post("/increaseviews", (req, res) => {
+  let productId = req.query._id;
+
+  Product.findOneAndUpdate({ _id: { $in: productId } }, { $inc: { views: 1 } })
     .populate("writer")
     .exec((err, product) => {
       if (err) return res.status(400).send(err);

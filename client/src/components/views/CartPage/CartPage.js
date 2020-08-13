@@ -27,7 +27,7 @@ export default function CartPage(props) {
         dispatch(getCartItems(cartItems, props.user.userData.cart));
       }
     }
-  }, [props.user.userData]);
+  }, [props.user.userData, dispatch]);
 
   const calculateTotalAmount = () => {
     let total = 0;
@@ -36,11 +36,10 @@ export default function CartPage(props) {
       props.user.cartDetail &&
         props.user.cartDetail.map((price) => {
           let amountTotal = price.price * price.quantity;
-          total += amountTotal;
+          return (total += amountTotal);
         });
+      return total;
     }
-
-    return total;
   };
 
   const handleRemove = (productId) => {
@@ -96,10 +95,6 @@ export default function CartPage(props) {
         )}
       </div>
 
-      {showSuccess && (
-        <Result status="success" title="Successfully Purchased Items" />
-      )}
-
       <div
         style={{
           width: "100%",
@@ -122,6 +117,11 @@ export default function CartPage(props) {
           </div>
         )}
       </div>
+
+      {showSuccess && (
+        <Result status="success" title="Successfully Purchased Items" />
+      )}
+
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
       >
