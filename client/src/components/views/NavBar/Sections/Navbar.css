@@ -84,4 +84,8 @@
   .menu__logo a {
     padding: 10px 20px;
   }
+  .ant-menu-inline > .ant-menu-item {
+    height: 70px;
+    line-height: 70px;
+  }
 }

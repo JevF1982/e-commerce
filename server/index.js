@@ -10,7 +10,7 @@ const config = require("./config/key");
 
 const mongoose = require("mongoose");
 const connect = mongoose
-  .connect(config.mongoURI, {
+  .connect(config.mongoURI || mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
