@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+require("dotenv").config();
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -10,7 +11,7 @@ const config = require("./config/key");
 
 const mongoose = require("mongoose");
 const connect = mongoose
-  .connect(config.mongoURI , {
+  .connect(config.mongoURI || process.env.MONGO_DB_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
