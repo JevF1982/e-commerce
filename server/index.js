@@ -11,7 +11,7 @@ const config = require("./config/key");
 
 const mongoose = require("mongoose");
 const connect = mongoose
-  .connect(config.mongoURI || process.env.MONGO_DB_CONNECTION, {
+  .connect(process.env.MONGO_DB_CONNECTION || config.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
