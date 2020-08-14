@@ -8,7 +8,7 @@ const { Product } = require("../models/Product.js");
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, `/`);
+    cb(null, path.resolve(__dirname, "build"));
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);

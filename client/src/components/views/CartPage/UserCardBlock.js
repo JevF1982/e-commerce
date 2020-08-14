@@ -7,7 +7,7 @@ export default function UserCardBlock(props) {
       <tr key={product._id}>
         <td>
           <img
-            src={`http://localhost:5000/uploads/${product.images[0].filename}`}
+            src={`/${product.images[0].filename}`}
             alt="product"
             style={{ width: "70px", height: "70px" }}
           />
