@@ -45,18 +45,11 @@ if (process.env.NODE_ENV === "production") {
   // app.use("/uploads", express.static("server/uploads"));
 
   app.use(express.static("client/build"));
+  app.use(express.static("server/uploads"));
 
   // index.html for all page routes    html or routing and naviagtion
   app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(
-        __dirname,
-        "../client",
-        "build",
-        "index.html",
-        "../server/uploads/"
-      )
-    );
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 }
 
