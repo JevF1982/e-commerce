@@ -10,8 +10,8 @@ function ProductImage(props) {
       props.details.images &&
         props.details.images.map((image) =>
           images.push({
-            original: `http://localhost:5000/uploads/${image.filename}`,
-            thumbnail: `http://localhost:5000/uploads/${image.filename}`,
+            original: `/${image.filename}`,
+            thumbnail: `/${image.filename}`,
           })
         );
 
