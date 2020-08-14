@@ -31,11 +31,10 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/product", require("./routes/product"));
 
 app.use(express.static("./server/uploads"));
-app.use("/server/uploads", express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
-  app.use("/server/uploads", express.static(path.join(__dirname, "public")));
   app.use(express.static("client/build"));
+  app.use(express.static("./server/uploads"));
 
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
