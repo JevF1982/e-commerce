@@ -9,7 +9,7 @@ const ImageSlider = (props) => {
           return (
             <div key={index}>
               <img
-                src={`http://localhost:5000/uploads/${image.filename}`}
+                src={`http://localhost:5000/${image.filename}`}
                 alt={`product_image-${index}`}
                 style={{ height: "150px", width: "100%" }}
               />
