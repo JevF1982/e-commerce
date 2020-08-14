@@ -43,9 +43,8 @@ if (process.env.NODE_ENV === "production") {
   // Set static folder
   // All the javascript and css files will be read and served from this folder
   // app.use("/uploads", express.static("server/uploads"));
-
+  app.use(express.static("./server/uploads"));
   app.use(express.static("client/build"));
-  app.use(express.static("server/uploads"));
 
   // index.html for all page routes    html or routing and naviagtion
   app.get("*", (req, res) => {
