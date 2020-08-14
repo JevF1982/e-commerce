@@ -86,7 +86,7 @@ function FileUpload(props) {
                     width: "150px",
                     height: "150px",
                   }}
-                  src={`http://localhost:5000/${image.filename}`}
+                  src={`/${image.filename}`}
                   alt={`ProductImage-${index}`}
                 />
               </div>
