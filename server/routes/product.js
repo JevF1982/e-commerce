@@ -18,7 +18,7 @@ aws.config.update({
   region: "eu-central-1",
 });
 
-s3 = new aws.S3();
+s3 = new aws.S3({ signatureVersion: "v4" });
 
 var upload = multer({
   storage: multerS3({

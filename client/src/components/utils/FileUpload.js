@@ -11,7 +11,7 @@ function FileUpload(props) {
     let formData = new FormData();
 
     const config = {
-      header: { "content-type": "application/x-www-form-urlencoded" },
+      header: { "content-type": "multipart/form-data" },
     };
 
     formData.append("file", files[0]);
