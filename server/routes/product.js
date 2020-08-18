@@ -1,45 +1,48 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const path = require("path");
+require("dotenv").config({
+  path: path.resolve(__dirname, "../../server/.env"),
+});
 const { auth } = require("../middleware/auth");
 const { Product } = require("../models/Product.js");
+aws = require("aws-sdk");
+multerS3 = require("multer-s3");
 
 //
 
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "/uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== ".jpg" || ext !== ".png") {
-      return cb(
-        res.status(400).end("only jpg or png files are allowed"),
-        false
-      );
-    }
-    cb(null, true);
-  },
+aws.config.update({
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  region: "eu-central-1",
 });
 
-var upload = multer({ storage: storage }).single("file");
+s3 = new aws.S3();
+
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    acl: "public-read",
+    bucket: process.env.BUCKET_NAME,
+    key: function (req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`); //use Date.now() for unique file keys
+    },
+  }),
+});
 
 //=================================
 //             Products
 //=================================
 
-router.post("/uploadImage", auth, (req, res) => {
-  upload(req, res, (err) => {
-    if (err) return res.json({ success: false, err });
-    return res.json({
-      success: true,
-      image: res.req.file,
-      path: res.req.path,
-      fileName: res.req.file.filename,
-    });
+//used by upload form
+router.post("/uploadImage", auth, upload.array("file", 4), (req, res, next) => {
+  console.log(req.files);
+
+  return res.json({
+    success: true,
+    path: req.files[0].location,
+    fileName: req.files[0].originalname,
   });
 });
 

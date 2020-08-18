@@ -10,8 +10,8 @@ function ProductImage(props) {
       props.details.images &&
         props.details.images.map((image) =>
           images.push({
-            original: `/${image.filename}`,
-            thumbnail: `/${image.filename}`,
+            original: image,
+            thumbnail: image,
           })
         );
 

@@ -1,13 +1,14 @@
 import React from "react";
 
 export default function UserCardBlock(props) {
+  console.log("mijn props", props);
   const renderItems = () =>
     props.products &&
     props.products.map((product) => (
       <tr key={product._id}>
         <td>
           <img
-            src={`/${product.images[0].filename}`}
+            src={product.images[0]}
             alt="product"
             style={{ width: "70px", height: "70px" }}
           />

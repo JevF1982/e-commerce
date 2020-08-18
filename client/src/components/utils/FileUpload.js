@@ -13,14 +13,18 @@ function FileUpload(props) {
     const config = {
       header: { "content-type": "multipart/form-data" },
     };
+
     formData.append("file", files[0]);
+    formData.append("file", files[1]);
+    formData.append("file", files[2]);
+    formData.append("file", files[3]);
 
     // save the image on node server
 
     Axios.post("/api/product/uploadImage", formData, config).then((res) => {
       if (res.data.success) {
-        setimages([...images, res.data.image]);
-        props.refreshFunction([...images, res.data.image]);
+        setimages([...images, res.data.path]);
+        props.refreshFunction([...images, res.data.path]);
       } else {
         alert("Failed to save Image on Server");
       }
@@ -31,7 +35,7 @@ function FileUpload(props) {
 
   const handleDelete = (image) => {
     const newImageArr = images.filter((pic) => {
-      return image.filename !== pic.filename;
+      return image !== pic;
     });
 
     setimages(newImageArr);
@@ -47,7 +51,12 @@ function FileUpload(props) {
           justifyContent: "space-between",
         }}
       >
-        <Dropzone onDrop={onDrop} multiple={true} maxSize={80000000000}>
+        <Dropzone
+          onDrop={onDrop}
+          uploadMultiple={true}
+          maxSize={80000000000}
+          minSize={0}
+        >
           {({ getRootProps, getInputProps }) => (
             <div
               style={{
@@ -63,7 +72,7 @@ function FileUpload(props) {
               }}
               {...getRootProps()}
             >
-              <input {...getInputProps()} />+
+              <input {...getInputProps()} multiple name="file" />+
             </div>
           )}
         </Dropzone>
@@ -86,7 +95,7 @@ function FileUpload(props) {
                     width: "150px",
                     height: "150px",
                   }}
-                  src={`/${image.filename}`}
+                  src={image}
                   alt={`ProductImage-${index}`}
                 />
               </div>
