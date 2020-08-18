@@ -26,7 +26,7 @@ var upload = multer({
     acl: "public-read",
     bucket: process.env.BUCKET_NAME,
     key: function (req, file, cb) {
-      cb(null, `${Date.now()}_${file.originalname}`); //use Date.now() for unique file keys
+      cb(null, file.originalname); //use Date.now() for unique file keys
     },
   }),
 });
@@ -38,7 +38,6 @@ var upload = multer({
 // get signed URL
 
 router.get("/sign-s3", (req, res) => {
-  console.log("de request ", req.query);
   const s3 = new aws.S3();
   const fileName = req.query["file-name"];
   const fileType = req.query["file-type"];
@@ -55,6 +54,7 @@ router.get("/sign-s3", (req, res) => {
       console.log(err);
       return res.end();
     }
+
     const returnData = {
       signedRequest: data,
       url: `https://${process.env.BUCKET_NAME}.s3.amazonaws.com/${fileName}`,
