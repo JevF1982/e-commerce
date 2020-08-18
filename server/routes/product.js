@@ -38,6 +38,7 @@ var upload = multer({
 // get signed URL
 
 router.get("/sign-s3", (req, res) => {
+  console.log("de request ", req.query);
   const s3 = new aws.S3();
   const fileName = req.query["file-name"];
   const fileType = req.query["file-type"];
@@ -65,13 +66,14 @@ router.get("/sign-s3", (req, res) => {
 
 //used by upload form
 router.post("/uploadImage", auth, upload.array("file", 4), (req, res, next) => {
-  console.log(req.files);
-
   return res.json({
     success: true,
+    name: req.files[0].key,
+    type: req.files[0].contentType,
     path: req.files[0].location,
     fileName: req.files[0].originalname,
   });
+  next();
 });
 
 router.post("/uploadProduct", auth, (req, res) => {

@@ -10,6 +10,8 @@ function FileUpload(props) {
   const onDrop = (files) => {
     let formData = new FormData();
 
+    console.log("de drop files", files[0]);
+
     const config = {
       header: { "content-type": "multipart/form-data" },
     };
@@ -22,12 +24,11 @@ function FileUpload(props) {
       if (res.data.success) {
         setimages([...images, res.data.path]);
         props.refreshFunction([...images, res.data.path]);
+        getSignedRequest(files[0]);
       } else {
         alert("Failed to save Image on Server");
       }
     });
-
-    getSignedRequest(files[0]);
   };
 
   // handle and delete product images
@@ -42,7 +43,7 @@ function FileUpload(props) {
   };
 
   const getSignedRequest = (file) => {
-    console.log(file);
+    console.log("dit moet ik hebben", file.type);
     const xhr = new XMLHttpRequest();
     xhr.open("GET", `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
     xhr.onreadystatechange = () => {
