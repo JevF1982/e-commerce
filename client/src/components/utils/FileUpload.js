@@ -45,7 +45,10 @@ function FileUpload(props) {
   const getSignedRequest = (file) => {
     console.log("dit moet ik hebben", file.type);
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+    xhr.open(
+      "GET",
+      `/api/product//sign-s3?file-name=${file.name}&file-type=${file.type}`
+    );
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -65,8 +68,7 @@ function FileUpload(props) {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          document.getElementById("preview").src = url;
-          document.getElementById("avatar-url").value = url;
+          alert("Picture uploaded");
         } else {
           alert("Could not upload file.");
         }
