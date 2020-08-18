@@ -11,13 +11,10 @@ function FileUpload(props) {
     let formData = new FormData();
 
     const config = {
-      header: { "content-type": "multipart/form-data" },
+      header: { "content-type": "application/x-www-form-urlencoded" },
     };
 
     formData.append("file", files[0]);
-    formData.append("file", files[1]);
-    formData.append("file", files[2]);
-    formData.append("file", files[3]);
 
     // save the image on node server
 
