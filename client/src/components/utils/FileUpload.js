@@ -10,8 +10,6 @@ function FileUpload(props) {
   const onDrop = (files) => {
     let formData = new FormData();
 
-    console.log("de drop files", files[0]);
-
     const config = {
       header: { "content-type": "multipart/form-data" },
     };
@@ -43,11 +41,10 @@ function FileUpload(props) {
   };
 
   const getSignedRequest = (file) => {
-    console.log("dit moet ik hebben", file.type);
     const xhr = new XMLHttpRequest();
     xhr.open(
       "GET",
-      `/api/product//sign-s3?file-name=${file.name}&file-type=${file.type}`
+      `/api/product/sign-s3?file-name=${file.name}&file-type=${file.type}`
     );
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
