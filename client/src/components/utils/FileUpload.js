@@ -16,8 +16,6 @@ function FileUpload(props) {
 
     files.map((files) => formData.append("file", files));
 
-    // formData.append("file", files[0]);
-
     // save the image on node server
 
     Axios.post("/api/product/uploadImage", formData, config).then((res) => {
@@ -26,23 +24,11 @@ function FileUpload(props) {
         let imageArray = [];
         res.data.data.forEach(async (element) => {
           imageArray.push(element.location);
-          await setimages(imageArray);
-          await props.refreshFunction(imageArray);
+          await setimages([...images, imageArray]);
+          await props.refreshFunction([...images, imageArray]);
         });
 
-        // await setimages([
-        //   ...images,
-        //   res.data.data.map((item) => item.location),
-        // ]);
-        // await props.refreshFunction([
-        //   ...images,
-        //   res.data.data.map((item) => item.location),
-        // ]);
         getSignedRequest(files[0]);
-
-        // setimages([...images, res.data.path]);
-        // props.refreshFunction([...images, res.data.path]);
-        // getSignedRequest(files[0]);
       } else {
         alert("Failed to save Image on Server");
       }
@@ -87,7 +73,7 @@ function FileUpload(props) {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          alert("Picture uploaded");
+          console.log("Picture uploaded");
         } else {
           alert("Could not upload file.");
         }
