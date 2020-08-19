@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function UserCardBlock(props) {
-  console.log("mijn props", props);
   const renderItems = () =>
     props.products &&
     props.products.map((product) => (
@@ -28,8 +27,8 @@ export default function UserCardBlock(props) {
       <table>
         <thead>
           <tr>
-            <th>Product image</th>
-            <th>Product Quantity</th>
+            <th>Product Image</th>
+            <th>Amount of Persons</th>
             <th>Product Price</th>
             <th>Remove from Cart</th>
           </tr>

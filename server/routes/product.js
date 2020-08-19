@@ -72,7 +72,9 @@ router.post("/uploadImage", auth, upload.array("file", 4), (req, res, next) => {
     type: req.files[0].contentType,
     path: req.files[0].location,
     fileName: req.files[0].originalname,
+    data: req.files,
   });
+
   next();
 });
 

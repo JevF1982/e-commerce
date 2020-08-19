@@ -14,20 +14,42 @@ function FileUpload(props) {
       header: { "content-type": "multipart/form-data" },
     };
 
-    formData.append("file", files[0]);
+    files.map((files) => formData.append("file", files));
+
+    // formData.append("file", files[0]);
 
     // save the image on node server
 
     Axios.post("/api/product/uploadImage", formData, config).then((res) => {
       if (res.data.success) {
-        setimages([...images, res.data.path]);
-        props.refreshFunction([...images, res.data.path]);
+        console.log(res.data.data);
+        let imageArray = [];
+        res.data.data.forEach(async (element) => {
+          imageArray.push(element.location);
+          await setimages(imageArray);
+          await props.refreshFunction(imageArray);
+        });
+
+        // await setimages([
+        //   ...images,
+        //   res.data.data.map((item) => item.location),
+        // ]);
+        // await props.refreshFunction([
+        //   ...images,
+        //   res.data.data.map((item) => item.location),
+        // ]);
         getSignedRequest(files[0]);
+
+        // setimages([...images, res.data.path]);
+        // props.refreshFunction([...images, res.data.path]);
+        // getSignedRequest(files[0]);
       } else {
         alert("Failed to save Image on Server");
       }
     });
   };
+
+  console.log("image hooks", images);
 
   // handle and delete product images
 
