@@ -13,8 +13,8 @@ multerS3 = require("multer-s3");
 // AWS config
 
 aws.config.update({
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   region: "eu-central-1",
 });
 
@@ -24,7 +24,7 @@ var upload = multer({
   storage: multerS3({
     s3: s3,
     acl: "public-read",
-    bucket: process.env.BUCKET_NAME,
+    bucket: process.env.S3_BUCKET,
     key: function (req, file, cb) {
       cb(null, file.originalname); //use Date.now() for unique file keys
     },
@@ -42,7 +42,7 @@ router.get("/sign-s3", (req, res) => {
   const fileName = req.query["file-name"];
   const fileType = req.query["file-type"];
   const s3Params = {
-    Bucket: process.env.BUCKET_NAME,
+    Bucket: process.env.S3_BUCKET,
     Key: fileName,
     Expires: 60,
     ContentType: fileType,
@@ -57,7 +57,7 @@ router.get("/sign-s3", (req, res) => {
 
     const returnData = {
       signedRequest: data,
-      url: `https://${process.env.BUCKET_NAME}.s3.amazonaws.com/${fileName}`,
+      url: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${fileName}`,
     };
     res.write(JSON.stringify(returnData));
     res.end();
