@@ -130,7 +130,7 @@ function LandingPage() {
   const increaseViews = (productId) => {
     Axios.post(`/api/product/increaseviews?_id=${productId}`).then((res) => {
       if (res.data.success) {
-        alert("succes increasing views");
+        console.log("succes increasing views");
       } else {
         console.log("failed to increase views");
       }

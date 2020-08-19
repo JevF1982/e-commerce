@@ -19,13 +19,12 @@ function FileUpload(props) {
     // save the image on node server
 
     Axios.post("/api/product/uploadImage", formData, config).then((res) => {
+      let imageArray = [];
       if (res.data.success) {
-        console.log(res.data.data);
-        let imageArray = [];
         res.data.data.forEach(async (element) => {
           imageArray.push(element.location);
-          await setimages([...images, imageArray]);
-          await props.refreshFunction([...images, imageArray]);
+          await setimages(images.concat(imageArray));
+          await props.refreshFunction(images.concat(imageArray));
         });
 
         getSignedRequest(files[0]);
@@ -34,8 +33,6 @@ function FileUpload(props) {
       }
     });
   };
-
-  console.log("image hooks", images);
 
   // handle and delete product images
 
